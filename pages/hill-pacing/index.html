@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>十八尖山 200m 配速與地形對照｜阿柴教練跑步知識庫</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@500;700;800&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap topbar-inner">
+      <a class="brand-link" href="../../index.html">
+        <img src="../../assets/shiba-logo.svg" alt="阿柴教練">
+        <span>阿柴教練跑步知識庫</span>
+      </a>
+      <nav class="nav-links" aria-label="主導覽">
+        <a href="../../index.html">回總目錄</a>
+        <a href="../../wiki/hill-pacing.md">對應 Wiki 原稿</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="article-head">
+      <div class="meta-pills">
+        <span class="pill">分類：路線數據</span>
+        <span class="pill">更新：2026-11-14</span>
+        <span class="pill mono">raw/02-shibajianshan-tcx.md</span>
+      </div>
+      <h1>十八尖山 200m 配速與地形對照</h1>
+      <p class="lead">整理自 2026-10-16 新竹十八尖山 COROS 跑錶實測 `.tcx` 檔案（2,264 個 Trackpoint），示範經過時間配速、淨坡度與資料缺口該怎麼判讀。</p>
+    </section>
+
+    <section class="section-card">
+      <h2>整趟實跑摘要</h2>
+      <ul>
+        <li><strong>總距離</strong>：6.649 km（6,649.00 m）</li>
+        <li><strong>經過時間（含暫停）</strong>：41 分 41 秒（整體平均配速 6:16 / km）</li>
+        <li><strong>海拔變化與心率</strong>：最低 50.0 m、最高 147.0 m；平均心率 173.4 bpm（最高 187 bpm）</li>
+        <li><strong>尾段規則</strong>：最後 6600m–6649m 只有 49.0 m，獨立標記長度，不混充完整 200 m。</li>
+      </ul>
+    </section>
+
+    <section class="tool-card">
+      <h2>互動對照表：每 200 公尺配速、淨坡度與心率篩選</h2>
+      <p>點選不同地形區段，觀察實際上下坡、補水暫停（5000m–5200m）以及缺口端點的數值變化。</p>
+      <div class="filter-group" style="margin-bottom: 12px;">
+        <button class="filter-btn active" data-seg="all" type="button">全部 34 段</button>
+        <button class="filter-btn" data-seg="up" type="button">上坡段 (&gt;= +3%)</button>
+        <button class="filter-btn" data-seg="down" type="button">下坡段 (&lt;= -3%)</button>
+        <button class="filter-btn" data-seg="gap" type="button">暫停與缺口段</button>
+      </div>
+      <div id="segSummary" class="result-panel" style="margin-bottom: 12px;"></div>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>距離區間</th>
+              <th>長度</th>
+              <th>經過時間配速</th>
+              <th>起訖海拔 (m)</th>
+              <th>近似淨坡度</th>
+              <th>平均心率</th>
+              <th>備註</th>
+            </tr>
+          </thead>
+          <tbody id="tcxBody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="coach-box">
+      <img src="../../assets/shiba-logo.svg" alt="阿柴教練頭像">
+      <div>
+        <h2>阿柴教練提醒：看數據不要亂下因果結論</h2>
+        <ul>
+          <li><strong>缺口就是缺口</strong>：起點 0m 與終點 6,649m 在原始檔案沒有海拔欄位，因此淨坡度誠實標示為缺口（NA），不能硬填成 0% 平路。</li>
+          <li><strong>同為下坡，配速未必一樣</strong>：6200m–6400m（-9.00%）跑到 4:10/km，但 6400m–6600m（-10.20%）主動收尾放慢為 8:05/km。地形只是背景參考，不能直接宣稱「下坡一定跑比較快」。</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section-card">
+      <h2>延伸閱讀（Wiki 交叉連結）</h2>
+      <div class="cross-links">
+        <a class="cross-chip" href="../run-walk-5k/index.html">零基礎跑走法與 5K 入門心法</a>
+        <a class="cross-chip" href="../cvs-recovery/index.html">超商運動補給試算與庫存防呆</a>
+      </div>
+    </section>
+
+    <nav class="pager" aria-label="頁面導覽">
+      <a href="../run-walk-5k/index.html">← 上一篇：零基礎跑走法與 5K 入門心法</a>
+      <a href="../cvs-recovery/index.html">下一篇：超商運動補給試算與庫存防呆 →</a>
+    </nav>
+  </main>
+
+  <footer class="wrap">
+    <span>阿柴教練的跑步科學與補給知識庫</span>
+    <span>內容源自 HW5 COROS TCX 實測分析（raw/02-shibajianshan-tcx.md）</span>
+  </footer>
+
+  <script>
+    (function () {
+      const segments = [
+        { range: "0m - 200m", len: "200.0 m", pace: "10:50 / km", alt: "NA -> 72.0", grade: null, hr: "121 bpm", note: "起步熱身，首點無海拔紀錄", type: "gap" },
+        { range: "200m - 400m", len: "200.0 m", pace: "7:05 / km", alt: "72.0 -> 95.0", grade: 11.50, hr: "160 bpm", note: "陡上坡段", type: "up" },
+        { range: "400m - 600m", len: "200.0 m", pace: "7:08 / km", alt: "95.0 -> 114.0", grade: 9.50, hr: "174 bpm", note: "連續上坡", type: "up" },
+        { range: "600m - 800m", len: "200.0 m", pace: "6:12 / km", alt: "114.0 -> 124.0", grade: 5.00, hr: "172 bpm", note: "緩升段", type: "up" },
+        { range: "800m - 1000m", len: "200.0 m", pace: "6:18 / km", alt: "124.0 -> 132.0", grade: 4.00, hr: "174 bpm", note: "", type: "up" },
+        { range: "1000m - 1200m", len: "200.0 m", pace: "5:37 / km", alt: "132.0 -> 129.0", grade: -1.50, hr: "175 bpm", note: "", type: "flat" },
+        { range: "1200m - 1400m", len: "200.0 m", pace: "6:25 / km", alt: "129.0 -> 140.0", grade: 5.50, hr: "179 bpm", note: "", type: "up" },
+        { range: "1400m - 1600m", len: "200.0 m", pace: "5:55 / km", alt: "140.0 -> 147.0", grade: 3.50, hr: "181 bpm", note: "抵達最高點 147.0 m", type: "up" },
+        { range: "1600m - 1800m", len: "200.0 m", pace: "5:40 / km", alt: "147.0 -> 145.0", grade: -1.00, hr: "176 bpm", note: "", type: "flat" },
+        { range: "1800m - 2000m", len: "200.0 m", pace: "5:00 / km", alt: "145.0 -> 135.0", grade: -5.00, hr: "175 bpm", note: "下坡加速", type: "down" },
+        { range: "2000m - 2200m", len: "200.0 m", pace: "5:22 / km", alt: "135.0 -> 133.0", grade: -1.00, hr: "175 bpm", note: "", type: "flat" },
+        { range: "2200m - 2400m", len: "200.0 m", pace: "5:13 / km", alt: "133.0 -> 128.0", grade: -2.50, hr: "178 bpm", note: "", type: "flat" },
+        { range: "2400m - 2600m", len: "200.0 m", pace: "5:52 / km", alt: "128.0 -> 121.7", grade: -3.17, hr: "172 bpm", note: "", type: "down" },
+        { range: "2600m - 2800m", len: "200.0 m", pace: "5:38 / km", alt: "121.7 -> 118.0", grade: -1.83, hr: "170 bpm", note: "", type: "flat" },
+        { range: "2800m - 3000m", len: "200.0 m", pace: "5:55 / km", alt: "118.0 -> 119.0", grade: 0.50, hr: "175 bpm", note: "", type: "flat" },
+        { range: "3000m - 3200m", len: "200.0 m", pace: "4:32 / km", alt: "119.0 -> 116.0", grade: -1.50, hr: "176 bpm", note: "", type: "flat" },
+        { range: "3200m - 3400m", len: "200.0 m", pace: "8:48 / km", alt: "116.0 -> 103.0", grade: -6.50, hr: "171 bpm", note: "含暫停或步行段", type: "gap" },
+        { range: "3400m - 3600m", len: "200.0 m", pace: "6:00 / km", alt: "103.0 -> 112.0", grade: 4.50, hr: "172 bpm", note: "", type: "up" },
+        { range: "3600m - 3800m", len: "200.0 m", pace: "5:40 / km", alt: "112.0 -> 119.0", grade: 3.50, hr: "182 bpm", note: "", type: "up" },
+        { range: "3800m - 4000m", len: "200.0 m", pace: "5:28 / km", alt: "119.0 -> 119.0", grade: 0.00, hr: "181 bpm", note: "", type: "flat" },
+        { range: "4000m - 4200m", len: "200.0 m", pace: "5:55 / km", alt: "119.0 -> 117.0", grade: -1.00, hr: "176 bpm", note: "", type: "flat" },
+        { range: "4200m - 4400m", len: "200.0 m", pace: "5:52 / km", alt: "117.0 -> 125.0", grade: 4.00, hr: "180 bpm", note: "", type: "up" },
+        { range: "4400m - 4600m", len: "200.0 m", pace: "5:48 / km", alt: "125.0 -> 133.0", grade: 4.00, hr: "182 bpm", note: "", type: "up" },
+        { range: "4600m - 4800m", len: "200.0 m", pace: "5:50 / km", alt: "133.0 -> 132.0", grade: -0.50, hr: "183 bpm", note: "", type: "flat" },
+        { range: "4800m - 5000m", len: "200.0 m", pace: "6:12 / km", alt: "132.0 -> 138.0", grade: 3.00, hr: "184 bpm", note: "", type: "up" },
+        { range: "5000m - 5200m", len: "200.0 m", pace: "13:37 / km", alt: "138.0 -> 138.0", grade: 0.00, hr: "163 bpm", note: "暫停休息與喝水，心率下降", type: "gap" },
+        { range: "5200m - 5400m", len: "200.0 m", pace: "5:15 / km", alt: "138.0 -> 137.0", grade: -0.50, hr: "168 bpm", note: "", type: "flat" },
+        { range: "5400m - 5600m", len: "200.0 m", pace: "5:02 / km", alt: "137.0 -> 126.3", grade: -5.33, hr: "170 bpm", note: "", type: "down" },
+        { range: "5600m - 5800m", len: "200.0 m", pace: "6:07 / km", alt: "126.3 -> 106.0", grade: -10.17, hr: "174 bpm", note: "陡下坡控速", type: "down" },
+        { range: "5800m - 6000m", len: "200.0 m", pace: "5:45 / km", alt: "106.0 -> 98.0", grade: -4.00, hr: "175 bpm", note: "", type: "down" },
+        { range: "6000m - 6200m", len: "200.0 m", pace: "5:03 / km", alt: "98.0 -> 88.4", grade: -4.80, hr: "176 bpm", note: "", type: "down" },
+        { range: "6200m - 6400m", len: "200.0 m", pace: "4:10 / km", alt: "88.4 -> 70.4", grade: -9.00, hr: "183 bpm", note: "下坡衝刺段", type: "down" },
+        { range: "6400m - 6600m", len: "200.0 m", pace: "8:05 / km", alt: "70.4 -> 50.0", grade: -10.20, hr: "180 bpm", note: "陡下收操減速", type: "down" },
+        { range: "6600m - 6649m", len: "49.0 m", pace: "4:32 / km", alt: "50.0 -> NA", grade: null, hr: "161 bpm", note: "不足 200m 尾段，末點無海拔", type: "gap" }
+      ];
+
+      const tbody = document.getElementById("tcxBody");
+      const summary = document.getElementById("segSummary");
+      const btns = document.querySelectorAll("[data-seg]");
+
+      function render(filter) {
+        const list = segments.filter((s) => {
+          if (filter === "all") return true;
+          if (filter === "up") return s.grade !== null && s.grade >= 3;
+          if (filter === "down") return s.grade !== null && s.grade <= -3;
+          return s.type === "gap";
+        });
+
+        tbody.innerHTML = "";
+        list.forEach((s) => {
+          const tr = document.createElement("tr");
+          if (s.grade === null) tr.className = "gap-row";
+          const gradeTxt = s.grade === null ? "缺口（NA）" : (s.grade > 0 ? "+" + s.grade.toFixed(2) + "%" : s.grade.toFixed(2) + "%");
+          tr.innerHTML =
+            "<td><strong>" + s.range + "</strong></td>" +
+            "<td>" + s.len + "</td>" +
+            "<td>" + s.pace + "</td>" +
+            "<td>" + s.alt + "</td>" +
+            "<td>" + gradeTxt + "</td>" +
+            "<td>" + s.hr + "</td>" +
+            "<td>" + (s.note || "—") + "</td>";
+          tbody.appendChild(tr);
+        });
+
+        const labels = {
+          all: "顯示全部 34 個實測區段（包含 2 個海拔缺口端點與 2 個含暫停段）。",
+          up: "篩選淨坡度 >= +3% 的 11 個上坡段；起步 200m–600m 坡度超過 +9.5%。",
+          down: "篩選淨坡度 <= -3% 的 8 個下坡段；後段 -9%～-10.2% 的速度落差可看出主動控速。",
+          gap: "顯示 4 個特殊區段：首尾無海拔欄位（NA）與中段含喝水暫停的時間拉長段。"
+        };
+        summary.textContent = labels[filter] || "";
+      }
+
+      btns.forEach((b) => {
+        b.addEventListener("click", () => {
+          btns.forEach((x) => x.classList.remove("active"));
+          b.classList.add("active");
+          render(b.dataset.seg);
+        });
+      });
+
+      render("all");
+    })();
+  </script>
+</body>
+</html>

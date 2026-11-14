@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>阿柴教練的跑步科學與補給知識庫</title>
+  <meta name="description" content="結合 Karpathy LLM Wiki 三層架構與靜態網頁，整理跑走法、十八尖山 TCX 配速與超商運動補給試算筆記。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@500;700;800&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./assets/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap topbar-inner">
+      <a class="brand-link" href="./index.html">
+        <img src="./assets/shiba-logo.svg" alt="阿柴教練">
+        <span>阿柴教練跑步知識庫</span>
+      </a>
+      <nav class="nav-links" aria-label="主導覽">
+        <a href="./wiki/index.md">Wiki 索引</a>
+        <a href="./AGENTS.md">AGENTS.md 規則</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="hero">
+      <div>
+        <span class="hero-badge">LLM Wiki × 靜態知識庫</span>
+        <h1>跑得慢才跑得久，<span class="mark">阿柴教練</span>的跑步筆記庫</h1>
+        <p>這個網站把前幾週累積的跑走法教材、十八尖山 TCX 配速數據與超商補給計算規則，依照 Karpathy LLM Wiki 三層架構整理成可持續擴充的靜態網頁。</p>
+      </div>
+      <div class="hero-mascot">
+        <img src="./assets/shiba-logo.svg" alt="戴著頭帶的阿柴教練">
+      </div>
+    </section>
+
+    <section class="arch-strip" aria-label="知識庫三層架構">
+      <div class="arch-box layer-raw">
+        <div class="layer-label">01. raw/ 原始筆記</div>
+        <p>存放實測 TCX 摘要、衛教筆記與商品價格表，作為事實來源。</p>
+      </div>
+      <div class="arch-box layer-wiki">
+        <div class="layer-label">02. wiki/ 結構化知識</div>
+        <p>由 AI 摘要整理成 Markdown 概念頁，並維護頁面之間的雙向連結。</p>
+      </div>
+      <div class="arch-box layer-pages">
+        <div class="layer-label">03. pages/ 互動網頁</div>
+        <p>依照 AGENTS.md 固定骨架生成靜態頁面，附帶原生 JS 試算工具。</p>
+      </div>
+    </section>
+
+    <section class="toolbar" aria-label="知識庫篩選">
+      <div class="filter-group">
+        <button class="filter-btn active" data-filter="all" type="button">全部主題</button>
+        <button class="filter-btn" data-filter="訓練法" type="button">訓練法</button>
+        <button class="filter-btn" data-filter="路線數據" type="button">路線數據</button>
+        <button class="filter-btn" data-filter="補給策略" type="button">補給策略</button>
+      </div>
+      <input id="wikiSearch" class="search-input" type="search" placeholder="搜尋關鍵字（如：配速、豆漿）" aria-label="搜尋知識卡片">
+    </section>
+
+    <section id="wikiCards" class="card-grid" aria-label="知識頁面目錄">
+      <!-- WIKI_CARDS_START -->
+      <a class="card" data-category="訓練法" href="./pages/run-walk-5k/index.html">
+        <span class="card-cat">訓練法</span>
+        <h2>零基礎跑走法與 5K 入門心法</h2>
+        <p>從慢跑 1 分鐘搭快走 2 分鐘開始，結合聊天配速（Zone 2）與 180 BPM 超慢跑技巧，內建訓練時間預估試算。</p>
+        <div class="card-meta">
+          <span>2026-11-14</span>
+          <span class="card-go">閱讀與試算 →</span>
+        </div>
+      </a>
+
+      <a class="card" data-category="路線數據" href="./pages/hill-pacing/index.html">
+        <span class="card-cat cat-data">路線數據</span>
+        <h2>十八尖山 200m 配速與地形對照</h2>
+        <p>解析 6.649 km 真實 COROS 跑錶軌跡，對照每 200 公尺經過時間配速、淨坡度、心率與資料缺口標示規則。</p>
+        <div class="card-meta">
+          <span>2026-11-14</span>
+          <span class="card-go">檢視 34 段數據 →</span>
+        </div>
+      </a>
+
+      <a class="card" data-category="補給策略" href="./pages/cvs-recovery/index.html">
+        <span class="card-cat cat-nutrition">補給策略</span>
+        <h2>超商運動補給試算與庫存防呆</h2>
+        <p>收錄 6 項超商常見補給的價格、蛋白質與熱量資料，並內建雙品項合併庫存檢查的互動計算器。</p>
+        <div class="card-meta">
+          <span>2026-11-14</span>
+          <span class="card-go">試算補給組合 →</span>
+        </div>
+      </a>
+      <!-- WIKI_CARDS_END -->
+    </section>
+
+    <p id="emptyState" style="display:none; color: var(--muted); text-align:center; padding: 24px 0;">
+      找不到符合條件的知識頁，請換個關鍵字或點選「全部主題」。
+    </p>
+  </main>
+
+  <footer class="wrap">
+    <span>清大 115232501 許家豪｜生成式 AI 課程第九週作業</span>
+    <span>由 AGENTS.md 規範驅動之純靜態知識庫</span>
+  </footer>
+
+  <script src="./assets/app.js"></script>
+</body>
+</html>
