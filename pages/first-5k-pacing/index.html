@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>首場 5K 三段配速與跑前輕食指南｜阿柴教練跑步知識庫</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@500;700;800&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../../assets/style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap topbar-inner">
+      <a class="brand-link" href="../../index.html">
+        <img src="../../assets/shiba-logo.svg" alt="阿柴教練">
+        <span>阿柴教練跑步知識庫</span>
+      </a>
+      <nav class="nav-links" aria-label="主導覽">
+        <a href="../../index.html">回總目錄</a>
+        <a href="../../wiki/first-5k-pacing.md">對應 Wiki 原稿</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="article-head">
+      <div class="meta-pills">
+        <span class="pill">分類：訓練法</span>
+        <span class="pill">更新：2026-11-19</span>
+        <span class="pill mono">raw/06-first-5k-race-pacing-plan.md</span>
+      </div>
+      <h1>首場 5K 三段配速與跑前輕食指南</h1>
+      <p class="lead">沿用 HW5 穩穩跑三段配速模型，幫助新手在第一次 5 公里挑戰時穩住前段節奏、不跟著人群暴衝，並搭配合適的跑前超商輕食。</p>
+    </section>
+
+    <section class="section-card">
+      <h2>核心觀念</h2>
+      <h3>1. 首場 5K 三段配速範例（以目標 35 分鐘、均速 7:00 / km 為基準）</h3>
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>階段與區間</th>
+              <th>相對均速策略</th>
+              <th>目標配速（35 分完賽例）</th>
+              <th>執行重點</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>第一段：熱身保守期</strong><br>0 – 1.5 km</td>
+              <td>比目標均速慢 15–20 秒</td>
+              <td>7:15 – 7:20 / km</td>
+              <td>克制起跑衝太快的念頭，讓心肺與關節平順熱身</td>
+            </tr>
+            <tr>
+              <td><strong>第二段：穩定巡航期</strong><br>1.5 – 4.0 km</td>
+              <td>維持目標平均配速</td>
+              <td>7:00 / km</td>
+              <td>保持 180 BPM 小步幅；太喘時主動快走 30–60 秒</td>
+            </tr>
+            <tr>
+              <td><strong>第三段：末段維持期</strong><br>4.0 – 5.0 km</td>
+              <td>體力許可下維持或微幅推進</td>
+              <td>6:50 – 7:00 / km</td>
+              <td>確認無頭暈或刺痛後穩穩完賽，避免跨大步腳跟重擊</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>2. 跑前 1 至 2 小時超商輕食搭配（對接超商資料庫）</h3>
+      <ul>
+        <li><strong>烤地瓜 1 份</strong>：35 元、蛋白質 2.5g、熱量 180 kcal（好消化的複合碳水主力）。</li>
+        <li><strong>希臘式優格 1 盒</strong>：45 元、蛋白質 9.2g、熱量 110 kcal（清爽低負擔的輕食搭配）。</li>
+        <li><strong>避雷提醒</strong>：起跑前 30 分鐘內避免高油脂、高纖維或大量高乳糖飲品（如一次喝完整瓶高蛋白牛乳 195 kcal），以免引發腸胃不適或側腹痛。</li>
+      </ul>
+    </section>
+
+    <section class="tool-card">
+      <h2>互動小工具：首場 5K 三段配速試算器</h2>
+      <p>輸入你的目標 5K 完賽總時間，自動算出前段保守（慢 15–20 秒）、中段巡航與末段維持（快 0–10 秒）的參考配速。</p>
+      <div class="tool-grid">
+        <div class="field">
+          <label for="target5kMin">目標完賽時間（分鐘）</label>
+          <input id="target5kMin" type="number" min="20" max="60" step="1" value="35">
+        </div>
+        <div class="field">
+          <label for="preSnack">跑前 1–2 小時超商輕食選擇</label>
+          <select id="preSnack">
+            <option value="sweetpotato">烤地瓜 1 份（35 元 / 180 kcal / 2.5g 蛋白）</option>
+            <option value="yogurt">希臘式優格 1 盒（45 元 / 110 kcal / 9.2g 蛋白）</option>
+            <option value="water">僅喝常溫水 300–500 ml（視個人消化習慣）</option>
+          </select>
+        </div>
+      </div>
+      <button class="btn" id="calc5kBtn" type="button">計算三段配速</button>
+      <div class="result-panel" id="pace5kResult" aria-live="polite"></div>
+    </section>
+
+    <section class="coach-box">
+      <img src="../../assets/shiba-logo.svg" alt="阿柴教練頭像">
+      <div>
+        <h2>阿柴教練提醒：安全完賽大於數字執著</h2>
+        <ul>
+          <li>第一次跑 5 公里，前 1.5 公里就算感覺「好像跑太慢」也不要急著追速度，後面 3.5 公里會感謝自己有留體力。</li>
+          <li>配速計畫只是參考基準；練跑當天若遇悶熱高濕或身體微恙，隨時切換回跑走法。</li>
+        </ul>
+        <div class="warn-box">
+          <strong>安全與醫療免責邊界：</strong>本頁整理運動訓練原則，非醫療診斷或處方。跑步中若感胸悶、頭暈或下肢關節刺痛，請立即降速步行並停跑就醫。
+        </div>
+      </div>
+    </section>
+
+    <section class="section-card">
+      <h2>延伸閱讀（Wiki 交叉連結）</h2>
+      <div class="cross-links">
+        <a class="cross-chip" href="../run-walk-5k/index.html">零基礎跑走法與 5K 入門心法</a>
+        <a class="cross-chip" href="../hill-pacing/index.html">十八尖山 200m 配速與地形對照</a>
+        <a class="cross-chip" href="../cvs-recovery/index.html">超商運動補給試算與庫存防呆</a>
+        <a class="cross-chip" href="../knee-and-warmup/index.html">跑前動態暖身與跑者膝預防</a>
+        <a class="cross-chip" href="../cooldown-and-hydration/index.html">跑後收操伸展與科學補水原則</a>
+      </div>
+    </section>
+
+    <nav class="pager" aria-label="頁面導覽">
+      <!-- PREV_LINK_START --><a href="../cooldown-and-hydration/index.html">← 上一篇：跑後收操伸展與科學補水原則</a><!-- PREV_LINK_END -->
+      <!-- NEXT_LINK_START --><a href="../../index.html">回知識庫首頁 →</a><!-- NEXT_LINK_END -->
+    </nav>
+  </main>
+
+  <footer class="wrap">
+    <span>阿柴教練的跑步科學與補給知識庫</span>
+    <span>內容源自 HW5／HW7 策略整理（raw/06-first-5k-race-pacing-plan.md）</span>
+  </footer>
+
+  <script>
+    (function () {
+      const btn = document.getElementById("calc5kBtn");
+      const out = document.getElementById("pace5kResult");
+
+      function fmtPace(secPerKm) {
+        const s = Math.max(180, Math.round(secPerKm));
+        const m = Math.floor(s / 60);
+        const r = s % 60;
+        return m + ":" + (r < 10 ? "0" + r : r) + " / km";
+      }
+
+      function calculatePlan() {
+        const mins = parseFloat(document.getElementById("target5kMin").value);
+        const snack = document.getElementById("preSnack").value;
+
+        if (!(mins >= 20 && mins <= 60)) {
+          out.className = "result-panel error";
+          out.textContent = "請輸入 20 到 60 分鐘之間的目標完賽時間。";
+          return;
+        }
+
+        const avgSec = (mins * 60) / 5;
+        const p1Low = fmtPace(avgSec + 15);
+        const p1High = fmtPace(avgSec + 20);
+        const p2 = fmtPace(avgSec);
+        const p3Low = fmtPace(avgSec - 10);
+
+        const snackNote = {
+          sweetpotato: "跑前 1–2 小時可吃烤地瓜 1 份（35 元、180 kcal），搭配分次喝水 300–500 ml。",
+          yogurt: "跑前 1–2 小時可吃希臘式優格 1 盒（45 元、9.2g 蛋白、110 kcal），腸胃負擔較輕。",
+          water: "起跑前 1–2 小時分次喝 300–500 ml 常溫水，不要在起跑前一次牛飲。"
+        }[snack];
+
+        out.className = "result-panel";
+        out.innerHTML =
+          "<strong>目標 " + mins + " 分鐘完賽（均速 " + p2 + "）三段配速建議：</strong><br>" +
+          "1. 熱身保守期（0–1.5 km）：<strong>" + p1Low + " – " + p1High + "</strong><br>" +
+          "2. 穩定巡航期（1.5–4.0 km）：<strong>" + p2 + "</strong>（太喘可穿插 30–60 秒快走）<br>" +
+          "3. 末段維持期（4.0–5.0 km）：<strong>" + p3Low + " – " + p2 + "</strong><br>" +
+          "跑前補給提示：" + snackNote;
+      }
+
+      btn.addEventListener("click", calculatePlan);
+      document.getElementById("preSnack").addEventListener("change", calculatePlan);
+      calculatePlan();
+    })();
+  </script>
+</body>
+</html>

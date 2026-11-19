@@ -1,115 +1,83 @@
-# AGENTS.md — 阿柴教練跑步知識庫工作規則（v2 正式版）
+# AGENTS.md — 阿柴教練跑步知識庫工作規則（v3 正式版）
 
-> 這份文件是本專案給 AI 協作者看的「員工手冊」。每次開始任何工作前，請先讀完本檔與 `NOTES.md`（現況白板），結束前請讀完本檔最後一節的「收工檢查清單」並逐項核對。
+> 這份文件是本專案給 AI 協作者看的「員工手冊」（規則主體精簡維持於 12,000 字元內）。開始工作前請先讀本檔與 `NOTES.md`，收工前請完成第六節檢查清單；若要從 Wiki 生成教學簡報，請接續讀取 `.agents/workflows/topic-slides.md`。
 
 ---
 
 ## 一、專案目的與寫作角色
 
-- **專案目標**：打造「阿柴教練的跑步科學與補給知識庫」，結合 Karpathy 的 LLM Wiki 三層架構與純靜態網頁，把前幾週累積的跑走法課表、十八尖山 COROS TCX 實跑數據與超商補給計算規則，整理成可長期擴充並部署於 GitHub Pages 的個人網站。
-- **核心原則**：原始筆記只增不改；知識頁面與網站目錄必須隨著每次收錄同步更新，讓知識隨時間累積，而不是每次發問都重新拼湊。
+- **專案目標**：打造「阿柴教練的跑步科學與補給知識庫」，整合前幾週累積的跑走法課表、十八尖山 COROS TCX 實跑數據、超商補給試算與收操配速指南，建立可擴充的 LLM Wiki 網站與教學型 HTML 簡報生產線。
+- **核心原則**：先討論確認需求摘要（`wiki/requirements-interview.md`）再動工；原始筆記只增不改；知識頁、網頁目錄與教學簡報均須嚴格對應 `raw/` 來源。
 - **寫作角色（阿柴教練）**：
-  - 語氣務實、有耐心、帶一點鼓勵性質（延續「跑得慢才跑得久」的陪跑理念），避免浮誇宣傳詞或空泛形容詞。
-  - 所有訓練建議與數值必須對應 `raw/` 來源內容，不自行編造食物價格、蛋白質克數或運動研究數據。
-  - **資料判讀與衛教邊界**：配速與坡度同時變化時，只描述觀察到的關聯，不下單一因果結論；不提供醫療診斷、用藥或復健處方，遇到胸悶、頭暈或關節刺痛一律建議停跑並就醫檢查。
+  - 語氣務實、有耐心、帶鼓勵性質（「跑得慢才跑得久」），刪去空泛誇張的形容詞。
+  - 所有數字必須對應 `raw/`，不自行編造食物價格、蛋白質克數或配速數據。
+  - **資料判讀與衛教邊界**：配速與坡度同時變化時只描述觀察到的關聯，不下單一因果結論（CR-01）；不提供醫療診斷或復健處方，出現胸悶、頭暈或關節刺痛一律建議停跑就醫。
 
 ---
 
 ## 二、檔案讀寫權限矩陣（嚴格遵守）
 
-為了避免誤改原始資料或破壞全站版型，各目錄權限明確區分如下：
-
 | 路徑／檔案 | 權限 | 規則說明 |
 |---|---|---|
-| `raw/**` | **唯讀（READ-ONLY）** | 第一層原始素材區。**嚴禁**修改、重新命名、移動或刪除既有的任何原始筆記；只允許人類或授權流程放入新的來源檔案。 |
-| `assets/style.css` | **唯讀（READ-ONLY）** | 全站統一樣式表與色票定義。未經使用者明確要求，禁止任意更改全站配色或字體變數。 |
-| `assets/app.js`、`assets/shiba-logo.svg` | **唯讀（READ-ONLY）** | 全站共用搜尋腳本與圖示。新增一般知識頁時不需修改。 |
-| `wiki/*.md`、`wiki/index.md` | **讀寫（READ/WRITE）** | 第二層知識中樞。由 AI 整理摘要、建立與補充頁面之間的雙向交叉連結，並同步更新 `wiki/index.md`。 |
-| `pages/<slug>/index.html` | **讀寫（READ/WRITE）** | 第三層前端展示頁。可在此建立新頁，或透過錨點更新既有頁面的「延伸閱讀」與「上一篇／下一篇」連結。 |
-| `index.html` | **局部寫入（PATCH ONLY）** | 網站總目錄首頁。僅允許在 `<!-- WIKI_CARDS_START -->` 與 `<!-- WIKI_CARDS_END -->` 之間增補知識卡片，若新增主題分類才同步補充工具列按鈕。 |
-| `log.md` | **只增不刪（APPEND ONLY）** | 工作日誌，照時間順序往下追加，不刪除歷史紀錄。每筆開頭固定為 `## [YYYY-MM-DD] <動作> | <標題>`。 |
-| `NOTES.md` | **讀寫（READ/WRITE）** | 現況白板，記錄目前進度與下次待辦；每次收工前更新為最新狀態。 |
+| `raw/**` | **唯讀（READ-ONLY）** | 第一層原始素材區。**嚴禁**修改、重新命名、移動或刪除既有原始筆記；僅能新增來源檔。 |
+| `assets/style.css`、`assets/app.js`、`assets/shiba-logo.svg` | **唯讀（READ-ONLY）** | 全站共用的樣式表、搜尋腳本與圖示。新增知識頁時禁止更改配色與共用程式。 |
+| `wiki/*.md`、`wiki/index.md` | **讀寫（READ/WRITE）** | 第二層知識中樞。整理摘要、維護雙向連結、記錄需求訪談與索引表。 |
+| `pages/<slug>/index.html` | **讀寫（READ/WRITE）** | 第三層靜態互動網頁。依照固定骨架生成新頁，並透過註解錨點更新前後頁導覽。 |
+| `slides/<slug>/index.html` | **讀寫（READ/WRITE）** | 教學型 16:9 翻頁簡報成品。僅能依通過檢查的逐頁稿渲染，排版時禁止偷改文案。 |
+| `workflows/<topic>/**` | **讀寫（READ/WRITE）** | 簡報工作流的狀態檔案區（`sources.md`、`cards/`、`outline.md`、`drafts/`、`report.md`）。 |
+| `scripts/*.py` | **讀寫（READ/WRITE）** | 可執行的驗證與 Lint 腳本，用來取代口頭檢查。 |
+| `index.html` | **局部寫入（PATCH ONLY）** | 首頁僅允許在 `<!-- WIKI_CARDS_START -->` 與 `<!-- WIKI_CARDS_END -->` 之間增補知識卡片，或調整簡報精選橫幅連結。 |
+| `log.md` / `NOTES.md` | **只增 / 讀寫** | `log.md` 只增不刪；`NOTES.md` 每次收工更新為最新進度。 |
 
 ---
 
 ## 三、命名與網址規範（強制英文 Kebab-Case）
 
-1. **字元限制**：所有 `wiki/<slug>.md` 與 `pages/<slug>/index.html` 中的 `<slug>`，**僅允許使用小寫英文字母（`a-z`）、數字（`0-9`）與連字號（`-`）**，必須符合正規表達式 `^[a-z0-9-]+$`。
-2. **禁止事項**：**嚴禁**在網址或資料夾名稱中使用中文、全形字元、空白、底線（`_`）或大寫英文字母，避免部署到 GitHub Pages 時出現 `%E5%8D%81...` 亂碼路徑。
-3. **三處名稱完全對齊**：每新增一個主題，以下三處必須使用完全相同的 `<slug>`：
-   - Markdown 知識頁：`wiki/<slug>.md`
-   - 靜態網頁：`pages/<slug>/index.html`
-   - 首頁卡片連結：`href="./pages/<slug>/index.html"`
-4. **正反例對照**：
-   - 正確：`run-walk-5k`、`hill-pacing`、`cvs-recovery`、`knee-and-warmup`
-   - 錯誤：`十八尖山配速`、`Run_Walk_Notes`、`Knee Warmup`
+1. **字元限制**：所有 `wiki/<slug>.md`、`pages/<slug>/index.html` 與 `slides/<slug>/index.html` 的 `<slug>`，僅限小寫英文字母（`a-z`）、數字（`0-9`）與連字號（`-`），須符合 `^[a-z0-9-]+$`。
+2. **禁止事項**：禁止在網址路徑使用中文、全形字元、空白、底線（`_`）或大寫英文字母。
+3. **三處名稱對齊**：`wiki/<slug>.md`、`pages/<slug>/index.html` 與首頁卡片連結必須使用完全一致的 `<slug>`。
 
 ---
 
-## 四、技術棧、視覺風格與頁面骨架
+## 四、技術棧、頁面骨架與教學簡報規範
 
 ### 4.1 技術棧與相對路徑
-- **零 Build Step**：全站僅使用純 HTML、CSS 與原生 JavaScript，**禁止**引入 React、Vue、Vite、Tailwind CLI 等需要編譯打包的工具。
-- **相對路徑規範**：部署於 GitHub Pages 子路徑（`https://hsu916.github.io/shiba-coach-wiki/`）時，子頁面一律使用相對路徑回指根目錄資源（如 `../../assets/style.css`、`../../index.html`、`../hill-pacing/index.html`），不可寫死 `/` 開頭的絕對路徑。
-- **無外部依賴互動**：每頁互動小工具使用原生 JS 並將狀態保留在記憶體中，不使用需要後端 API Key 的請求。
+- **零 Build Step**：全站僅用純 HTML、CSS 與原生 JS，禁止引入 React、Vue、Vite 或 Tailwind CLI。
+- **相對路徑**：部署於 GitHub Pages 子目錄時，子頁統一使用相對路徑（如 `../../assets/style.css`），不可寫死 `/` 根路徑。
 
-### 4.2 視覺與排版規範
-- **色票定義（保留於 `assets/style.css`）**：
-  - 米白紙感底色 `#FBF8F3`（`--bg-cream`）、卡片紙白 `#FFFDF9`（`--bg-paper`）
-  - 主深海藍 `#1E3A5F`（`--navy`）、阿柴暖橘 `#D97724`（`--shiba-orange`）、工具湖水綠 `#2A7B76`（`--teal`）
-- **語文格式**：全面使用台灣繁體中文與全形標點（，。、：「」！？）；常見英文技術詞彙（如 `TCX`、`Zone 2`、`BPM`、`GitHub Pages`）保留原文。
-- **分類標籤集合**：目前首頁支援 `訓練法`、`路線數據`、`補給策略`、`傷痛預防` 四類（`訓練法` 沿用預設暖橘標籤、`路線數據` 用 `cat-data`、`補給策略` 用 `cat-nutrition`、`傷痛預防` 用卡片內對應警示色標籤，不另外改動唯讀的 `assets/style.css`）。
+### 4.2 互動網頁（`pages/<slug>/index.html`）固定骨架
+依序具備：頂部導覽列（`header.topbar`）→ 文章標頭（`section.article-head`）→ 核心觀念卡片（`section.section-card`）→ 互動小工具（`section.tool-card`）→ 阿柴教練提醒（`section.coach-box`）→ 延伸閱讀交叉連結（`.cross-links`）→ 上下篇導覽（`nav.pager`，必含 `PREV_LINK_START` 與 `NEXT_LINK_START` 註解錨點）。
 
-### 4.3 單頁固定 HTML 骨架
-每篇 `pages/<slug>/index.html` 必須依序具備以下區塊，確保全站閱讀節奏一致：
-1. **頂部導覽列（`header.topbar`）**：品牌連結回 `../../index.html`，導覽連結含「回總目錄」與「對應 Wiki 原稿（`../../wiki/<slug>.md`）」。
-2. **文章標頭（`section.article-head`）**：標註分類、更新日期、對應 `raw/` 來源檔名、主標題與一句話導讀。
-3. **核心觀念卡片（`section.section-card`）**：結構化條列與數據表格（數據對照務必使用標準 `<table>`）。
-4. **互動小工具（`section.tool-card`）**：至少一個可在本機運作的原生 JS 計算器、檢核表或資料篩選器。
-5. **阿柴教練提醒（`section.coach-box`）**：點出常見誤區與不可跨越的安全／資料判讀界線。
-6. **延伸閱讀交叉連結（`section.section-card`）**：列出與本主題高度相關的其他頁面連結（`.cross-links`）。
-7. **上下篇導覽（`nav.pager`）**：必須保留以下兩個註解錨點，供後續增補頁面時精準替換：
-   ```html
-   <nav class="pager" aria-label="頁面導覽">
-     <!-- PREV_LINK_START --><a href="../prev-slug/index.html">← 上一篇：標題</a><!-- PREV_LINK_END -->
-     <!-- NEXT_LINK_START --><a href="../../index.html">回知識庫首頁 →</a><!-- NEXT_LINK_END -->
-   </nav>
-   ```
+### 4.3 教學型 HTML 簡報（`slides/<slug>/index.html`）規格
+- 採 16:9 舞台（`1180px × 664px`）自動等比縮放設計，無垂直捲軸，支援鍵盤 `←` / `→` / `Space` 與底部導覽圓點翻頁。
+- 每頁底部必須保留出處列（`.slide-source`），清楚標明並連回對應 `wiki/<slug>.md` 與 `raw/<file>.md`。
+- 版面密度須在進入 HTML 前於逐頁稿階段驗收完畢（每頁要點 ≤ 5 點、內文 ≤ 220 字、表格 ≤ 5×4 格）；排版階段發現溢出須退回 `drafts/` 縮短文字，**不得**在渲染階段直接修改文字。
 
 ---
 
-## 五、三大標準作業流程（Operations SOP）
+## 五、標準作業流程（Operations SOP）
 
 ### 5.1 收錄新內容（Ingest & Build Page）
-當使用者在 `raw/` 放入新筆記並要求新增頁面時，依序執行以下 7 步：
-1. **讀取原始筆記**：完整閱讀 `raw/` 下的新檔案（不修改該檔），決定英文 `<slug>`（符合 `^[a-z0-9-]+$`）與分類標籤。
-2. **撰寫 Wiki 頁面**：在 `wiki/<slug>.md` 建立結構化摘要，於文末加上「延伸閱讀」連向既有關聯頁面。
-3. **建立雙向連結**：打開受關聯的舊 `wiki/*.md` 與對應 `pages/*/index.html`，在它們的「延伸閱讀」區塊補上新頁連結。
-4. **更新 Wiki 索引**：在 `wiki/index.md` 表格新增一筆記錄並更新總篇數。
-5. **生成靜態網頁**：參照現有頁面骨架建立 `pages/<slug>/index.html`，放入核心觀念、互動小工具、阿柴提醒、`PREV_LINK` 指向原本最新的一頁、`NEXT_LINK` 指向回首頁。
-6. **雙向更新首頁與舊頁導覽**：
-   - 在根目錄 `index.html` 的 `<!-- WIKI_CARDS_START -->` 與 `<!-- WIKI_CARDS_END -->` 之間插入新卡片（若引入新分類，同步於 `.filter-group` 增加按鈕）。
-   - 修改原本最新那篇舊網頁的 `<!-- NEXT_LINK_START -->...<!-- NEXT_LINK_END -->`，將其指向剛建立的 `../<slug>/index.html`。
-7. **紀錄與白板更新**：於 `log.md` 底部新增 `## [YYYY-MM-DD] ingest | <標題>` 紀錄，並更新 `NOTES.md`。
+讀取 `raw/` 新檔（唯讀不改）→ 撰寫 `wiki/<slug>.md` → 更新關聯頁雙向連結 → 更新 `wiki/index.md` → 建立 `pages/<slug>/index.html` → 更新首頁 `WIKI_CARDS_START` 區塊與前一頁 `NEXT_LINK` 錨點 → 寫入 `log.md` 與 `NOTES.md`。
 
 ### 5.2 查詢與回寫（Query）
-回答知識庫相關問題時，先讀 `wiki/index.md` 定位相關主題，再讀取對應的 `wiki/<slug>.md` 彙整答案；若有價值的跨篇比較分析，經確認後可另外存成新頁。
+先讀 `wiki/index.md` 定位主題，再讀對應 `wiki/<slug>.md` 彙整答案；跨篇分析確認後存成新頁。
 
 ### 5.3 定期健檢（Lint）
-每累積 3 至 5 篇新頁面時執行一次全站檢查：
-- 確認沒有未連到首頁或未出現在 `wiki/index.md` 的孤兒頁面。
-- 檢查跨頁引用的數據是否一致（例如超商商品價格、十八尖山里程與 200m 數據）。
-- 檢查所有內部 `href` 與 `src` 相對路徑是否存在且無 404 風險。
+檢查無孤兒頁面、跨頁數據一致、所有內部 `href` / `src` 相對路徑存在且無 404。
+
+### 5.4 教學簡報 Graph + Loop 工作流（詳細規定見 `.agents/workflows/topic-slides.md`）
+採 6 節點 4 關卡生產線：`檢索 Wiki (sources.md)` → `[Gate 1]` → `平行證據卡 (cards/*.md)` → `規劃大綱 (outline.md)` → `[Gate 2]` → `單頁小圈寫逐頁稿 (drafts/slides-draft.md)` → `[Gate 3: 出處／數值白名單／因果紅旗／字數密度]` → `渲染簡報 (slides/)` → `[Gate 4: 渲染與溢出檢查]` → `產出報告 (report.md)`。
 
 ---
 
 ## 六、收工前強制檢查清單（Definition of Done）
 
-每次新增或修改頁面後，在回報完成之前，**必須**逐項核對以下 6 項條件：
+每次擴充 Wiki、修改網頁或生成簡報後，在回報完成前必須核對：
 
-- [ ] **1. 唯讀區保護確認**：檢查檔案狀態，確認 `raw/` 既有原始筆記與 `assets/style.css` 未被修改或刪除。
-- [ ] **2. 檔名合規確認**：新生成的 `wiki/<slug>.md` 與 `pages/<slug>/index.html` 的 `<slug>` 完全符合 `^[a-z0-9-]+$`，無中文、底線或空白。
-- [ ] **3. 首頁索引同步**：根目錄 `index.html` 的 `WIKI_CARDS_START` 區塊內已補上新卡片，卡片總數與 `pages/` 子資料夾數量一致。
-- [ ] **4. 前後頁導覽與雙向連結同步**：新頁面的 `PREV_LINK` 已指向前一最新頁，前一最新頁的 `NEXT_LINK` 已回頭指向新頁；相關頁面的「延伸閱讀」已完成雙向互連。
-- [ ] **5. 相對路徑與無編譯檢查**：確認新頁面以相對路徑引用 `../../assets/style.css` 與 `../../assets/shiba-logo.svg`，且僅使用純靜態 HTML/CSS/JS。
-- [ ] **6. 工作紀錄同步**：`wiki/index.md`、`log.md` 與 `NOTES.md` 皆已更新至最新狀態。
+- [ ] **1. 唯讀保護**：`raw/**` 既有檔案與 `assets/style.css` 未被修改或刪除。
+- [ ] **2. 檔名合規**：所有新頁面與簡報的 `<slug>` 符合 `^[a-z0-9-]+$`。
+- [ ] **3. 首頁與索引同步**：`wiki/index.md` 與 `index.html` 卡片數量及 `pages/` 子資料夾數量一致。
+- [ ] **4. 雙向連結與導覽錨點**：新舊頁面延伸閱讀互連，且 `PREV_LINK` / `NEXT_LINK` 完整串接。
+- [ ] **5. 簡報與工作流腳本驗收**：執行 `python scripts/check_slides_workflow.py` 確認 Gate 1–4 全部通過（不是口頭「檢查一下」）。
+- [ ] **6. 工作紀錄更新**：`log.md` 與 `NOTES.md` 已記錄最新執行狀態。
