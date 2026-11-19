@@ -1,0 +1,1066 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>從零跑完第一個 5K｜阿柴教練教學 HTML 簡報</title>
+  <meta name="description" content="使用阿柴教練 LLM Wiki 6 篇知識頁產出的 12 頁教學型翻頁 HTML 簡報，涵蓋暖身預防、跑走法、十八尖山數據邊界與超商補給試算。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@500;700;800&family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-cream: #FBF8F3;
+      --bg-paper: #FFFDF9;
+      --bg-warm: #F4ECE0;
+      --navy: #1E3A5F;
+      --navy-soft: #E5EDF5;
+      --orange: #D97724;
+      --orange-soft: #FCECD8;
+      --teal: #2A7B76;
+      --teal-soft: #E0F1EF;
+      --blush: #F4B3BE;
+      --sky: #8FCFE2;
+      --highlight: #F7E6A8;
+      --ink: #2C3A47;
+      --muted: #5F6E7B;
+      --line: #E2D9CB;
+      --warn-bg: #FFF5F2;
+      --warn-border: #C95B48;
+      --round: "M PLUS Rounded 1c", "Noto Sans TC", "Microsoft JhengHei", sans-serif;
+      --body: "Noto Sans TC", "Microsoft JhengHei", system-ui, sans-serif;
+      --mono: ui-monospace, "SFMono-Regular", Consolas, "Noto Sans TC", monospace;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; overflow: hidden; }
+
+    body {
+      background: #E9E2D4;
+      font-family: var(--body);
+      color: var(--ink);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .hud-top {
+      position: fixed;
+      top: 10px;
+      left: 16px;
+      right: 16px;
+      z-index: 40;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      pointer-events: none;
+    }
+
+    .hud-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      pointer-events: auto;
+    }
+
+    .hud-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255, 253, 249, 0.94);
+      border: 2px solid var(--navy);
+      border-radius: 999px;
+      padding: 5px 13px;
+      font-family: var(--round);
+      font-weight: 700;
+      font-size: 13px;
+      color: var(--navy);
+      text-decoration: none;
+      cursor: pointer;
+      box-shadow: 2px 2px 0 rgba(30, 58, 95, 0.14);
+      transition: transform 0.12s ease, background 0.12s ease;
+    }
+
+    .hud-pill:hover {
+      background: var(--orange-soft);
+      transform: translateY(-1px);
+    }
+
+    .hud-pill img { width: 20px; height: 20px; }
+    .hud-pill.teal { border-color: var(--teal); color: var(--teal); }
+    .hud-pill.teal:hover { background: var(--teal-soft); }
+
+    .stage-wrap {
+      width: 1180px;
+      height: 664px;
+      flex: none;
+      transform-origin: center center;
+      position: relative;
+    }
+
+    .deck {
+      width: 1180px;
+      height: 664px;
+      position: relative;
+    }
+
+    .slide {
+      position: absolute;
+      inset: 0;
+      border-radius: 24px;
+      overflow: hidden;
+      opacity: 0;
+      transform: scale(0.985);
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      pointer-events: none;
+      background-color: var(--bg-cream);
+      background-image: radial-gradient(#E3DAC9 1.35px, transparent 1.35px);
+      background-size: 24px 24px;
+      border: 3px solid var(--navy);
+      box-shadow: 0 22px 54px rgba(30, 58, 95, 0.22);
+      display: flex;
+      flex-direction: column;
+      padding: 36px 48px 24px;
+    }
+
+    .slide.active { opacity: 1; transform: none; pointer-events: auto; }
+
+    .tape {
+      position: absolute;
+      top: -10px;
+      left: 54px;
+      width: 120px;
+      height: 30px;
+      background: var(--sky);
+      opacity: 0.58;
+      transform: rotate(-4deg);
+      border-radius: 3px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    }
+
+    .tape.orange {
+      left: auto;
+      right: 76px;
+      background: var(--orange-soft);
+      border: 1px dashed var(--orange);
+      opacity: 0.85;
+      transform: rotate(5deg);
+    }
+
+    .tape.blush {
+      left: auto;
+      right: 68px;
+      background: var(--blush);
+      opacity: 0.55;
+      transform: rotate(4deg);
+    }
+
+    .slide-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+
+    .unit-tag {
+      display: inline-block;
+      background: var(--navy);
+      color: #FFFFFF;
+      font-family: var(--round);
+      font-weight: 800;
+      font-size: 13px;
+      padding: 4px 14px;
+      border-radius: 999px;
+      letter-spacing: 0.4px;
+    }
+
+    .unit-tag.orange { background: var(--orange); }
+    .unit-tag.teal { background: var(--teal); }
+    .unit-tag.warn { background: var(--warn-border); }
+
+    .slide-num-badge {
+      font-family: var(--mono);
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--muted);
+      background: var(--bg-warm);
+      padding: 3px 11px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+    }
+
+    .slide h1, .slide h2 {
+      font-family: var(--round);
+      font-weight: 800;
+      color: var(--navy);
+      line-height: 1.25;
+      margin-bottom: 8px;
+    }
+
+    .slide h1 { font-size: 38px; }
+    .slide h2 { font-size: 30px; }
+
+    .mark {
+      background: linear-gradient(transparent 58%, var(--highlight) 58%);
+      padding: 0 5px;
+    }
+
+    .subtitle {
+      font-size: 16.5px;
+      color: var(--muted);
+      line-height: 1.55;
+      margin-bottom: 14px;
+      font-weight: 500;
+    }
+
+    .slide-body {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 12px;
+      min-height: 0;
+    }
+
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .grid-4 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+
+    .card-box {
+      background: var(--bg-paper);
+      border: 2px solid var(--navy);
+      border-radius: 16px;
+      padding: 14px 18px;
+      box-shadow: 4px 4px 0 rgba(30, 58, 95, 0.10);
+    }
+
+    .card-box.teal { border-color: var(--teal); box-shadow: 4px 4px 0 rgba(42, 123, 118, 0.12); }
+    .card-box.orange { border-color: var(--orange); background: #FFF9F1; box-shadow: 4px 4px 0 rgba(217, 119, 36, 0.12); }
+    .card-box.warn { border-color: var(--warn-border); background: var(--warn-bg); box-shadow: 4px 4px 0 rgba(201, 91, 72, 0.12); }
+
+    .card-box h3 { font-family: var(--round); font-size: 17px; color: var(--navy); margin-bottom: 6px; }
+    .card-box p, .card-box li { font-size: 15.5px; line-height: 1.55; color: var(--ink); }
+
+    .bullet-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 9px;
+    }
+
+    .bullet-list li {
+      background: var(--bg-paper);
+      border: 2px solid var(--line);
+      border-left: 6px solid var(--navy);
+      border-radius: 12px;
+      padding: 10px 15px;
+      font-size: 16px;
+      line-height: 1.5;
+      box-shadow: 0 3px 8px rgba(30, 58, 95, 0.05);
+    }
+
+    .bullet-list.teal li { border-left-color: var(--teal); }
+    .bullet-list.orange li { border-left-color: var(--orange); }
+    .bullet-list li strong { color: var(--navy); }
+
+    .slide-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--bg-paper);
+      border-radius: 14px;
+      overflow: hidden;
+      border: 2px solid var(--navy);
+      font-size: 15px;
+    }
+
+    .slide-table th, .slide-table td {
+      padding: 9px 12px;
+      text-align: left;
+      border-bottom: 1px solid var(--line);
+      line-height: 1.45;
+    }
+
+    .slide-table th { background: var(--navy); color: #FFFFFF; font-family: var(--round); font-weight: 700; }
+    .slide-table tr:last-child td { border-bottom: none; }
+    .slide-table tr.alt { background: var(--bg-warm); }
+
+    .cover-layout {
+      display: grid;
+      grid-template-columns: 1.35fr 0.65fr;
+      gap: 24px;
+      align-items: center;
+      height: 100%;
+    }
+
+    .cover-mascot {
+      background: var(--bg-paper);
+      border: 2.5px solid var(--navy);
+      border-radius: 22px;
+      padding: 20px;
+      text-align: center;
+      box-shadow: 6px 6px 0 rgba(30, 58, 95, 0.14);
+    }
+
+    .cover-mascot img { width: 150px; height: 150px; margin-bottom: 10px; }
+
+    .cover-mascot .cap {
+      font-family: var(--round);
+      font-size: 14.5px;
+      font-weight: 700;
+      color: var(--navy);
+      background: var(--highlight);
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 999px;
+    }
+
+    .slide-bottom { margin-top: 10px; display: flex; flex-direction: column; gap: 8px; }
+
+    .coach-strip {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: var(--orange-soft);
+      border: 2px solid var(--orange);
+      border-radius: 14px;
+      padding: 8px 14px;
+      font-size: 14.5px;
+      line-height: 1.45;
+      color: #6E3304;
+    }
+
+    .coach-strip img { width: 34px; height: 34px; flex: none; }
+
+    .slide-source {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--muted);
+      border-top: 1.5px dashed var(--line);
+      padding-top: 6px;
+      flex-wrap: wrap;
+    }
+
+    .slide-source a { color: var(--navy); font-weight: 700; text-decoration: none; border-bottom: 1px solid var(--navy); }
+    .slide-source a:hover { color: var(--orange); border-bottom-color: var(--orange); }
+
+    .hud-bottom {
+      position: fixed;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 40;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: rgba(255, 253, 249, 0.95);
+      border: 2px solid var(--navy);
+      border-radius: 999px;
+      padding: 5px 14px;
+      box-shadow: 0 6px 18px rgba(30, 58, 95, 0.16);
+    }
+
+    .nav-btn {
+      font-family: var(--round);
+      font-weight: 800;
+      font-size: 13px;
+      padding: 4px 12px;
+      border-radius: 999px;
+      border: 1.5px solid var(--navy);
+      background: var(--bg-paper);
+      color: var(--navy);
+      cursor: pointer;
+    }
+
+    .nav-btn:hover:not(:disabled) { background: var(--navy); color: #FFFFFF; }
+    .nav-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+
+    .dots { display: flex; align-items: center; gap: 6px; }
+
+    .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 999px;
+      border: 1.5px solid var(--navy);
+      background: transparent;
+      cursor: pointer;
+      padding: 0;
+      transition: all 0.15s ease;
+    }
+
+    .dot.active { width: 24px; background: var(--orange); border-color: var(--orange); }
+
+    .page-counter {
+      font-family: var(--mono);
+      font-size: 12.5px;
+      font-weight: 700;
+      color: var(--navy);
+      min-width: 52px;
+      text-align: center;
+    }
+
+    .drawer {
+      position: fixed;
+      top: 52px;
+      right: 16px;
+      width: 390px;
+      max-width: calc(100vw - 32px);
+      background: var(--bg-paper);
+      border: 2.5px solid var(--teal);
+      border-radius: 18px;
+      padding: 16px 18px;
+      box-shadow: 0 14px 36px rgba(30, 58, 95, 0.24);
+      z-index: 50;
+      display: none;
+      font-size: 13.5px;
+      line-height: 1.6;
+    }
+
+    .drawer.open { display: block; }
+    .drawer h3 { font-family: var(--round); font-size: 16px; color: var(--teal); margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; }
+    .drawer-close { border: none; background: var(--teal-soft); color: var(--teal); font-weight: 800; border-radius: 8px; padding: 2px 8px; cursor: pointer; }
+    .drawer .kv { background: var(--bg-warm); border-radius: 10px; padding: 9px 11px; margin-bottom: 8px; font-size: 12.5px; }
+    .drawer .links { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+    .drawer .links a { font-size: 12px; font-weight: 700; color: var(--navy); background: var(--navy-soft); padding: 4px 10px; border-radius: 999px; text-decoration: none; }
+  </style>
+</head>
+<body>
+  <div class="hud-top">
+    <div class="hud-group">
+      <a class="hud-pill" href="../../index.html">
+        <img src="../../assets/shiba-logo.svg" alt="阿柴教練">
+        <span>← 回阿柴教練知識庫</span>
+      </a>
+      <a class="hud-pill" href="../../workflows/topic-first-5k-guide/report.md">Workflow 執行報告</a>
+    </div>
+    <div class="hud-group">
+      <button class="hud-pill teal" id="toggleDrawerBtn" type="button">檢視本頁證據卡與 Gate 狀態</button>
+    </div>
+  </div>
+
+  <aside class="drawer" id="workflowDrawer" aria-label="本頁 Workflow 證據與檢查狀態">
+    <h3>
+      <span>本頁 Workflow 追蹤</span>
+      <button class="drawer-close" id="closeDrawerBtn" type="button">關閉</button>
+    </h3>
+    <div class="kv" id="drawerInfo"></div>
+    <p style="color: var(--muted); font-size: 12.5px;">
+      依 <strong>Graph + Loop</strong> 生產線產出：檢索 6 篇 Wiki → 平行抽證據卡 → 大綱覆蓋率審查 → 單頁 Loop 逐頁稿（檢查字數、出處與 CR-01）→ 鎖定文案渲染 HTML。
+    </p>
+    <div class="links">
+      <a href="../../workflows/topic-first-5k-guide/sources.md">sources.md</a>
+      <a href="../../workflows/topic-first-5k-guide/outline.md">outline.md</a>
+      <a href="../../workflows/topic-first-5k-guide/drafts/slides-draft.md">slides-draft.md</a>
+      <a href="../../workflows/topic-first-5k-guide/report.md">report.md</a>
+    </div>
+  </aside>
+
+  <div class="stage-wrap" id="stageWrap">
+    <main class="deck" id="deck">
+
+      <!-- Slide 01 -->
+      <section class="slide active" data-card="全站知識庫總覽" data-wiki="wiki/index.md" data-raw="raw/01, 04, 06">
+        <span class="tape"></span>
+        <span class="tape orange"></span>
+        <div class="slide-top">
+          <span class="unit-tag">01 / 教學地圖與課程導覽</span>
+          <span class="slide-num-badge">SLIDE 01 / 12</span>
+        </div>
+        <div class="cover-layout">
+          <div>
+            <h1>從零跑完<span class="mark">第一個 5K</span>：<br>阿柴教練新手指南</h1>
+            <p class="subtitle">整合 6 篇知識庫筆記，帶零基礎跑者一步步安全完賽。</p>
+            <ul class="bullet-list">
+              <li><strong>跑前準備：</strong>8–10 分鐘動態暖身與跑者膝（ITBS／PFPS）辨識。</li>
+              <li><strong>入門訓練：</strong>Jeff Galloway 跑走法、Zone 2 聊天配速與 180 BPM 超慢跑。</li>
+              <li><strong>數據配速：</strong>十八尖山 TCX 地形邊界與首場 5K 三段配速。</li>
+              <li><strong>恢復補給：</strong>跑後 4 部位靜態伸展、三階段補水與超商試算防呆。</li>
+            </ul>
+          </div>
+          <div class="cover-mascot">
+            <img src="../../assets/shiba-logo.svg" alt="阿柴教練">
+            <div><span class="cap">只用 Wiki 6 篇筆記生成</span></div>
+            <p style="margin-top: 12px; font-size: 13.5px; color: var(--muted); line-height: 1.5;">
+              支援鍵盤 ← / → 翻頁，每頁底部皆附原文出處連結。
+            </p>
+          </div>
+        </div>
+        <div class="slide-bottom">
+          <div class="coach-strip">
+            <img src="../../assets/shiba-logo.svg" alt="阿柴">
+            <span><strong>阿柴教練說：</strong>這份簡報每個數字都找得到出處，照步驟做就能穩穩起跑。</span>
+          </div>
+          <div class="slide-source">
+            <span>出處：<a href="../../wiki/index.md">wiki/index.md</a> ｜ <a href="../../index.html">回知識庫總目錄</a></span>
+            <span>原始來源：raw/01-run-walk-5k-notes.md, raw/04-knee-and-warmup.md, raw/06-first-5k-race-pacing-plan.md</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Slide 02 -->
+      <section class="slide" data-card="cards/04-knee-and-warmup.md" data-wiki="wiki/knee-and-warmup.md" data-raw="raw/04-knee-and-warmup.md">
+        <span class="tape blush"></span>
+        <div class="slide-top">
+          <span class="unit-tag warn">02 / 跑前準備：動態暖身</span>
+          <span class="slide-num-badge">SLIDE 02 / 12</span>
+        </div>
+        <h2>起跑前 10 分鐘：<span class="mark">動態暖身</span> 4 步驟</h2>
+        <p class="subtitle">起跑前花 8–10 分鐘活動關節與提升肌溫；靜態拉筋留到跑後，避免彈性暫時下降。</p>
+        <div class="slide-body">
+          <div class="grid-4">
+            <div class="card-box">
+              <h3>1. 關節喚醒</h3>
+              <p>左右腳踝繞環 <strong>10 圈</strong>，扶牆前後擺腿各 <strong>12 次</strong>。</p>
+            </div>
+            <div class="card-box teal">
+              <h3>2. 原地小碎步</h3>
+              <p>輕快步頻原地踏步 <strong>45 秒</strong>，讓心率平順微升。</p>
+            </div>
+            <div class="card-box orange">
+              <h3>3. 弓箭步轉體</h3>
+              <p>左右交替各 <strong>6 至 8 步</strong>，伸展髖屈肌並啟動臀大肌。</p>
+            </div>
+            <div class="card-box">
+              <h3>4. 原地提踵</h3>
+              <p>慢起慢落 <strong>12 至 15 下</strong>，喚醒小腿與阿基里斯腱。</p>
+            </div>
+          </div>
+        </div>
+        <div class="slide-bottom">
+          <div class="coach-strip">
+            <img src="../../assets/shiba-logo.svg" alt="阿柴">
+            <span><strong>阿柴教練說：</strong>暖身像冷車暖機，花 10 分鐘讓關節準備好再出門。</span>
+          </div>
+          <div class="slide-source">
+            <span>出處：<a href="../../wiki/knee-and-warmup.md">wiki/knee-and-warmup.md</a> ｜ <a href="../../pages/knee-and-warmup/index.html">開啟暖身互動檢核頁 →</a></span>
+            <span>原始來源：raw/04-knee-and-warmup.md</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Slide 03 -->
+      <section class="slide" data-card="cards/04-knee-and-warmup.md" data-wiki="wiki/knee-and-warmup.md" data-raw="raw/04-knee-and-warmup.md">
+        <span class="tape"></span>
+        <div class="slide-top">
+          <span class="unit-tag warn">03 / 傷痛預防：跑者膝辨識</span>
+          <span class="slide-num-badge">SLIDE 03 / 12</span>
+        </div>
+        <h2>保護膝蓋：分辨兩種常見「<span class="mark">跑者膝</span>」</h2>
+        <p class="subtitle">先分清楚不適位置與立即停跑的紅燈界線。</p>
+        <div class="slide-body">
+          <table class="slide-table">
+            <thead>
+              <tr>
+                <th>類型</th>
+                <th>痛點位置</th>
+                <th>常見相關因素</th>
+                <th>調整重點</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>ITBS（髂脛束）</strong></td>
+                <td>膝蓋外側</td>
+                <td>臀中肌較弱、傾斜路面、下坡負荷</td>
+                <td>避開斜坡，下坡縮短步幅控速</td>
+              </tr>
+              <tr class="alt">
+                <td><strong>PFPS（髕骨股骨）</strong></td>
+                <td>膝蓋前側</td>
+                <td>股四頭肌失衡、跨大步腳跟重擊</td>
+                <td>提高步頻靠近重心落腳</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="grid-2">
+            <div class="card-box teal">
+              <h3>漸進原則</h3>
+              <p>週跑量增幅參考約 <strong>10% 上下</strong>。</p>
+            </div>
+            <div class="card-box warn">
+              <h3>紅燈界線</h3>
+              <p>出現<strong>尖銳刺痛、關節卡住或腫脹發熱</strong>時，立刻停跑並就醫評估。</p>
+            </div>
+          </div>
+        </div>
+        <div class="slide-bottom">
+          <div class="coach-strip">
+            <img src="../../assets/shiba-logo.svg" alt="阿柴">
+            <span><strong>阿柴教練說：</strong>膝蓋痛不能硬撐，看懂位置與紅燈界線才跑得長久。</span>
+          </div>
+          <div class="slide-source">
+            <span>出處：<a href="../../wiki/knee-and-warmup.md">wiki/knee-and-warmup.md</a> ｜ <a href="../../pages/knee-and-warmup/index.html">開啟暖身互動檢核頁 →</a></span>
+            <span>原始來源：raw/04-knee-and-warmup.md</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Slide 04 -->
+      <section class="slide" data-card="cards/01-run-walk-5k.md" data-wiki="wiki/run-walk-5k.md" data-raw="raw/01-run-walk-5k-notes.md">
+        <span class="tape orange"></span>
+        <div class="slide-top">
+          <span class="unit-tag orange">04 / 核心訓練法：跑走交替</span>
+          <span class="slide-num-badge">SLIDE 04 / 12</span>
+        </div>
+        <h2>零基礎第一課：<span class="mark">跑走法</span>（Run-Walk Method）</h2>
+        <p class="subtitle">新手落地承受約體重 2–3 倍反作用力，需主動穿插步行延緩疲勞。</p>
+        <div class="slide-body">
+          <ul class="bullet-list orange">
+            <li><strong>基礎循環（第 1–2 週）：</strong>慢跑 1 分鐘搭快走 1–2 分鐘，重複 6–8 組（20–25 分鐘）。</li>
+            <li><strong>練跑頻率：</strong>每週 3 次，兩次之間至少隔 1 天供肌肉修復與回補肝醣。</li>
+            <li><strong>漸進課表：</strong>維持 2 週無不適後改成跑 2 分走 1 分，約 8–12 週完成 5K。</li>
+            <li><strong>避雷提醒：</strong>停下來走不是偷懶，別在第一個月天天跑。</li>
+          </ul>
+        </div>
+        <div class="slide-bottom">
+          <div class="coach-strip">
+            <img src="../../assets/shiba-logo.svg" alt="阿柴">
+            <span><strong>阿柴教練說：</strong>趁雙腿還有控制力時主動快走，比撐到步態變形安全得多。</span>
+          </div>
+          <div class="slide-source">
+            <span>出處：<a href="../../wiki/run-walk-5k.md">wiki/run-walk-5k.md</a> ｜ <a href="../../pages/run-walk-5k/index.html">開啟跑走試算網頁 →</a></span>
+            <span>原始來源：raw/01-run-walk-5k-notes.md</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Slide 05 -->
+      <section class="slide" data-card="cards/01-run-walk-5k.md" data-wiki="wiki/run-walk-5k.md" data-raw="raw/01-run-walk-5k-notes.md">
+        <span class="tape"></span>
+        <div class="slide-top">
+          <span class="unit-tag orange">05 / 心率與步頻：超慢跑</span>
+          <span class="slide-num-badge">SLIDE 05 / 12</span>
+        </div>
+        <h2>起跑不喘：聊天配速與 <span class="mark">180 BPM</span> 超慢跑</h2>
+        <p class="subtitle">跑不到 10 分鐘就氣喘吁吁，多半是起步太快或步幅過大。</p>
+        <div class="slide-body">
+          <div class="grid-2">
+            <div class="card-box">
+              <h3>聊天配速（Zone 2）</h3>
+              <ul style="padding-left: 18px; display: flex; flex-direction: column; gap: 8px;">
+                <li>能完整講出長句不喘氣（<strong>RPE 3–4 分</strong>、最大心率 <strong>60%–70%</strong>）。</li>
+                <li>動用慢肌纖維並以脂肪氧化供能，打好耐力底層。</li>
+              </ul>
+            </div>
+            <div class="card-box teal">
+              <h3>超慢跑（田中宏曉教授推廣）</h3>
+              <ul style="padding-left: 18px; display: flex; flex-direction: column; gap: 8px;">
+                <li>步頻約 <strong>180 BPM</strong>、小步幅（時速 <strong>4–6 公里</strong>）。</li>
+                <li><strong>前腳掌輕觸地</strong>、後腳跟輕落、膝微彎，避開跨大步腳跟重踩。</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="slide-bottom">
+          <div class="coach-strip">
+            <img src="../../assets/shiba-logo.svg" alt="阿柴">
+            <span><strong>阿柴教練說：</strong>縮小步幅、放慢呼吸，能邊跑邊聊天的速度最剛好。</span>
+          </div>
+          <div class="slide-source">
+            <span>出處：<a href="../../wiki/run-walk-5k.md">wiki/run-walk-5k.md</a> ｜ <a href="../../pages/run-walk-5k/index.html">開啟跑走試算網頁 →</a></span>
+            <span>原始來源：raw/01-run-walk-5k-notes.md</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Slide 06 -->
+      <section class="slide" data-card="cards/02-hill-pacing.md" data-wiki="wiki/hill-pacing.md" data-raw="raw/02-shibajianshan-tcx.md">
+        <span class="tape blush"></span>
+        <div class="slide-top">
+          <span class="unit-tag">06 / 實測數據：COROS TCX 解析</span>
+          <span class="slide-num-badge">SLIDE 06 / 12</span>
+        </div>
+        <h2>看懂跑錶：十八尖山 <span class="mark">6.649 km</span> 實測</h2>
+        <p class="subtitle">解析 COROS <code>.tcx</code>（2,264 點）200m 分段與缺口標示。</p>
+        <div class="slide-body">
+          <ul class="bullet-list">
+            <li><strong>整趟統計：</strong>6.649 km、41 分 41 秒、平均配速 6:16 / km。</li>
+            <li><strong>海拔心率：</strong>50.0–147.0 m；均心率 173.4 bpm（最高 187）。</li>
+            <li><strong>暫停基準：</strong>5000–5200m 喝水拉長至 13:37 / km（163 bpm）。</li>
+            <li><strong>缺口（CR-01）：</strong>端點無海拔標 NA（不補 0）；尾段 49.0 m 獨立標示。</li>
+          </ul>
+        </div>
+        <div class="slide-bottom">
+          <div class="coach-strip">
+            <img src="../../assets/shiba-logo.svg" alt="阿柴">
+            <span><strong>阿柴教練說：</strong>喝水暫停會拉長經過時間配速，缺漏端點老實標 NA。</span>
+          </div>
+          <div class="slide-source">
+            <span>出處：<a href="../../wiki/hill-pacing.md">wiki/hill-pacing.md</a> ｜ <a href="../../pages/hill-pacing/index.html">查看 34 段 TCX 對照表 →</a></span>
+            <span>原始來源：raw/02-shibajianshan-tcx.md</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Slide 07 -->
+      <section class="slide" data-card="cards/02-hill-pacing.md" data-wiki="wiki/hill-pacing.md" data-raw="raw/02-shibajianshan-tcx.md">
+        <span class="tape"></span>
+        <div class="slide-top">
+          <span class="unit-tag">07 / 數據邊界：CR-01 不歸因原則</span>
+          <span class="slide-num-badge">SLIDE 07 / 12</span>
+        </div>
+        <h2>地形邊界：同為陡下坡，<span class="mark">配速相反</span></h2>
+        <p class="subtitle">只能觀察同時變化，不可簡化為「坡度決定快慢」。</p>
+        <div class="slide-body">
+          <table class="slide-table">
+            <thead>
+              <tr>
+                <th>區間</th>
+                <th>淨坡度</th>
+                <th>配速</th>
+                <th>備註</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>200–400m</strong></td>
+                <td>+11.50%</td>
+                <td>7:05/km</td>
+                <td>陡上 160 bpm</td>
+              </tr>
+              <tr class="alt">
+                <td><strong>400–600m</strong></td>
+                <td>+9.50%</td>
+                <td>7:08/km</td>
+                <td>連升 174 bpm</td>
+              </tr>
+              <tr>
+                <td><strong>6200–6400m</strong></td>
+                <td>-9.00%</td>
+                <td>4:10/km</td>
+                <td>衝刺 183 bpm</td>
+              </tr>
+              <tr class="alt">
+                <td><strong>6400–6600m</strong></td>
+                <td>-10.20%</td>
+                <td>8:05/km</td>
+                <td>主動收操控速</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="card-box orange">
+            <p><strong>CR-01：</strong>同陡下坡卻跑出 <strong>4:10</strong> 與 <strong>8:05</strong>，受體感與控速策略影響。</p>
+          </div>
+        </div>
+        <div class="slide-bottom">
+          <div class="coach-strip">
+            <img src="../../assets/shiba-logo.svg" alt="阿柴">
+            <span><strong>阿柴教練說：</strong>同時變化要問有無策略介入，別落入假因果。</span>
+          </div>
+          <div class="slide-source">
+            <span>出處：<a href="../../wiki/hill-pacing.md">wiki/hill-pacing.md</a> ｜ <a href="../../pages/hill-pacing/index.html">查看 34 段 TCX 對照表 →</a></span>
+            <span>原始來源：raw/02-shibajianshan-tcx.md</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Slide 08 -->
+      <section class="slide" data-card="cards/06-first-5k-pacing.md" data-wiki="wiki/first-5k-pacing.md" data-raw="raw/06-first-5k-race-pacing-plan.md">
+        <span class="tape orange"></span>
+        <div class="slide-top">
+          <span class="unit-tag orange">08 / 實戰配速：首場 5K 策略</span>
+          <span class="slide-num-badge">SLIDE 08 / 12</span>
+        </div>
+        <h2>首場 5K 配速：<span class="mark">前慢、中穩、後維持</span></h2>
+        <p class="subtitle">沿用 HW5 三段模型（35 分完賽、均速 7:00 / km 範例）。</p>
+        <div class="slide-body">
+          <table class="slide-table">
+            <thead>
+              <tr>
+                <th>里程階段</th>
+                <th>策略</th>
+                <th>參考配速</th>
+                <th>重點</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>0–1.5 km</strong></td>
+                <td>保守</td>
+                <td>7:15–7:20 / km</td>
+                <td>慢 15–20 秒不暴衝</td>
+              </tr>
+              <tr class="alt">
+                <td><strong>1.5–4.0 km</strong></td>
+                <td>巡航</td>
+                <td>7:00 / km</td>
+                <td>180 BPM；喘可走 30–60 秒</td>
+              </tr>
+              <tr>
+                <td><strong>4.0–5.0 km</strong></td>
+                <td>維持</td>
+                <td>6:50–7:00 / km</td>
+                <td>穩推進，不跨步重踩</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="card-box teal">
+            <p><strong>完賽原則：</strong>安全且能輕鬆講話最重要，不硬追數字。</p>
+          </div>
+        </div>
+        <div class="slide-bottom">
+          <div class="coach-strip">
+            <img src="../../assets/shiba-logo.svg" alt="阿柴">
+            <span><strong>阿柴教練說：</strong>前 1.5 公里忍住慢點，後 3.5 公里更輕鬆。</span>
+          </div>
+          <div class="slide-source">
+            <span>出處：<a href="../../wiki/first-5k-pacing.md">wiki/first-5k-pacing.md</a> ｜ <a href="../../pages/first-5k-pacing/index.html">開啟三段配速試算器 →</a></span>
+            <span>原始來源：raw/06-first-5k-race-pacing-plan.md</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Slide 09 -->
+      <section class="slide" data-card="cards/06, cards/05, cards/03" data-wiki="wiki/first-5k-pacing.md" data-raw="raw/06, 05, 03">
+        <span class="tape"></span>
+        <div class="slide-top">
+          <span class="unit-tag teal">09 / 跑前補給：輕食與飲水節奏</span>
+          <span class="slide-num-badge">SLIDE 09 / 12</span>
+        </div>
+        <h2>出發前補給：超商<span class="mark">輕食與分段飲水</span></h2>
+        <p class="subtitle">不空腹頭昏，也別起跑前吃太飽或猛灌水。</p>
+        <div class="slide-body">
+          <ul class="bullet-list teal">
+            <li><strong>輕食 1（前 1–2 小時）：</strong>烤地瓜 1 份（35 元、2.5g 蛋白、180 kcal）。</li>
+            <li><strong>輕食 2（前 1–2 小時）：</strong>希臘式優格 1 盒（45 元、9.2g 蛋白、110 kcal）。</li>
+            <li><strong>避雷：</strong>前 30 分鐘避開高油脂或大量高乳糖飲品（高蛋白牛乳 195 kcal）。</li>
+            <li><strong>補水：</strong>前 1–2 小時喝 300–500 ml；跑中每 15–20 分補 100–150 ml。</li>
+          </ul>
+        </div>
+        <div class="slide-bottom">
+          <div class="coach-strip">
+            <img src="../../assets/shiba-logo.svg" alt="阿柴">
+            <span><strong>阿柴教練說：</strong>挑好消化的輕食搭小口喝水，起跑時肚子才不會抗議。</span>
+          </div>
+          <div class="slide-source">
+            <span>出處：<a href="../../wiki/first-5k-pacing.md">wiki/first-5k-pacing.md</a> ・ <a href="../../wiki/cooldown-and-hydration.md">wiki/cooldown-and-hydration.md</a> ・ <a href="../../wiki/cvs-recovery.md">wiki/cvs-recovery.md</a></span>
+            <span>原始來源：raw/06, raw/05, raw/03</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Slide 10 -->
+      <section class="slide" data-card="cards/05-cooldown-and-hydration.md" data-wiki="wiki/cooldown-and-hydration.md" data-raw="raw/05-post-run-cooldown-and-hydration.md">
+        <span class="tape blush"></span>
+        <div class="slide-top">
+          <span class="unit-tag teal">10 / 跑後收操：伸展與補水回補</span>
+          <span class="slide-num-badge">SLIDE 10 / 12</span>
+        </div>
+        <h2>跑後收操：<span class="mark">慢走、靜態伸展與體重差補水</span></h2>
+        <p class="subtitle">跑完慢走 5–10 分鐘降回 120 bpm 以下，勿立刻坐下。</p>
+        <div class="slide-body">
+          <ul class="bullet-list teal">
+            <li><strong>1. 小腿弓箭步：</strong>後膝伸直與微彎各停 20–30 秒。</li>
+            <li><strong>2. 股四頭肌：</strong>扶牆拉腳背貼臀，雙膝靠攏不拱腰。</li>
+            <li><strong>3. 膕旁肌：</strong>前腳跟點地伸直，背部打直微前傾。</li>
+            <li><strong>4. 臀肌：</strong>坐姿腳踝跨對側膝前傾（各 2–3 組）。</li>
+            <li><strong>補水：</strong>每減 0.5 公斤補 500–750 ml；大量流汗搭電解質與碳水。</li>
+          </ul>
+        </div>
+        <div class="slide-bottom">
+          <div class="coach-strip">
+            <img src="../../assets/shiba-logo.svg" alt="阿柴">
+            <span><strong>阿柴教練說：</strong>跑後體溫高時做靜態伸展最合適，維持呼吸不彈震。</span>
+          </div>
+          <div class="slide-source">
+            <span>出處：<a href="../../wiki/cooldown-and-hydration.md">wiki/cooldown-and-hydration.md</a> ｜ <a href="../../pages/cooldown-and-hydration/index.html">開啟補水與收操檢核器 →</a></span>
+            <span>原始來源：raw/05-post-run-cooldown-and-hydration.md</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Slide 11 -->
+      <section class="slide" data-card="cards/03-cvs-recovery.md" data-wiki="wiki/cvs-recovery.md" data-raw="raw/03-cvs-nutrition-menu.md">
+        <span class="tape"></span>
+        <div class="slide-top">
+          <span class="unit-tag teal">11 / 超商恢復餐：試算交給程式</span>
+          <span class="slide-num-badge">SLIDE 11 / 12</span>
+        </div>
+        <h2>跑後超商餐：<span class="mark">試算交給程式</span></h2>
+        <p class="subtitle">HW8 實測：LLM 心算易偏，交給程式才準。</p>
+        <div class="slide-body">
+          <table class="slide-table">
+            <thead>
+              <tr>
+                <th>品項</th>
+                <th>價格</th>
+                <th>庫存</th>
+                <th>蛋白(g)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>豆漿／蛋白乳</td>
+                <td>20 / 39</td>
+                <td>15 / 10</td>
+                <td>13.6 / 20.0</td>
+              </tr>
+              <tr class="alt">
+                <td>茶葉蛋／烤地瓜</td>
+                <td>13 / 35</td>
+                <td>20 / 12</td>
+                <td>7.0 / 2.5</td>
+              </tr>
+              <tr>
+                <td>舒肥雞胸／優格</td>
+                <td>59 / 45</td>
+                <td>8 / 10</td>
+                <td>24.5 / 9.2</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="grid-2">
+            <div class="card-box">
+              <h3>Cell 7-0 實測對照</h3>
+              <p>1 雞胸＋2 蛋 LLM 誤估 88–112元／56g；程式算 <strong>85 元、38.5g、285 kcal</strong>。</p>
+            </div>
+            <div class="card-box orange">
+              <h3>合併防呆</h3>
+              <p>茶葉蛋 12＋10 顆累計 <strong>22 顆</strong>，超 <strong>20 庫存</strong> 擋下。</p>
+            </div>
+          </div>
+        </div>
+        <div class="slide-bottom">
+          <div class="coach-strip">
+            <img src="../../assets/shiba-logo.svg" alt="阿柴">
+            <span><strong>阿柴教練說：</strong>算錢和蛋白質交給程式，才不會算錯。</span>
+          </div>
+          <div class="slide-source">
+            <span>出處：<a href="../../wiki/cvs-recovery.md">wiki/cvs-recovery.md</a> ｜ <a href="../../pages/cvs-recovery/index.html">開啟超商補給試算器 →</a></span>
+            <span>原始來源：raw/03-cvs-nutrition-menu.md</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- Slide 12 -->
+      <section class="slide" data-card="全站知識庫總覽" data-wiki="wiki/index.md" data-raw="raw/01 至 raw/06 全數 6 篇">
+        <span class="tape orange"></span>
+        <div class="slide-top">
+          <span class="unit-tag">12 / 完賽檢查表與學習地圖</span>
+          <span class="slide-num-badge">SLIDE 12 / 12</span>
+        </div>
+        <h2>準備出發！首場 5K <span class="mark">三階段核對清單</span></h2>
+        <p class="subtitle">把 6 篇 Wiki 濃縮成出門前、練跑中與跑完後的行動清單。</p>
+        <div class="slide-body">
+          <ul class="bullet-list">
+            <li><strong>跑前：</strong>前 1–2 小時吃烤地瓜或優格＋補水 300–500 ml；完成 8–10 分鐘動態暖身。</li>
+            <li><strong>跑中：</strong>前 1.5 km 保守起跑，維持 Zone 2 聊天強度與 180 BPM 小步幅。</li>
+            <li><strong>跑後：</strong>慢走 5–10 分鐘 → 4 部位靜態伸展各 20–30 秒 → 補水搭超商恢復餐。</li>
+            <li><strong>互動入口：</strong>點選下方連結可開啟 6 篇互動工具網頁與工作流報告。</li>
+          </ul>
+          <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+            <a class="hud-pill" href="../../index.html">瀏覽 6 篇知識頁首頁 →</a>
+            <a class="hud-pill teal" href="../../workflows/topic-first-5k-guide/report.md">檢視 3 輪執行報告 →</a>
+          </div>
+        </div>
+        <div class="slide-bottom">
+          <div class="coach-strip">
+            <img src="../../assets/shiba-logo.svg" alt="阿柴">
+            <span><strong>阿柴教練說：</strong>每次跑走練習都在累積體力，帶著安全邊界出門，跑得慢才跑得久！</span>
+          </div>
+          <div class="slide-source">
+            <span>出處：<a href="../../wiki/index.md">wiki/index.md</a>（6 篇 Wiki 完整收錄）</span>
+            <span>原始來源：raw/01 至 raw/06</span>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <div class="hud-bottom">
+    <button class="nav-btn" id="prevBtn" type="button">← 上一頁</button>
+    <div class="dots" id="dots"></div>
+    <span class="page-counter" id="pageCounter">01 / 12</span>
+    <button class="nav-btn" id="nextBtn" type="button">下一頁 →</button>
+  </div>
+
+  <script>
+    (function () {
+      const stage = document.getElementById("stageWrap");
+      const slides = Array.from(document.querySelectorAll(".slide"));
+      const dotsWrap = document.getElementById("dots");
+      const counter = document.getElementById("pageCounter");
+      const prevBtn = document.getElementById("prevBtn");
+      const nextBtn = document.getElementById("nextBtn");
+      const drawer = document.getElementById("workflowDrawer");
+      const drawerInfo = document.getElementById("drawerInfo");
+      const toggleBtn = document.getElementById("toggleDrawerBtn");
+      const closeBtn = document.getElementById("closeDrawerBtn");
+
+      let current = 0;
+
+      function fitStage() {
+        const vw = window.innerWidth - 32;
+        const vh = window.innerHeight - 104;
+        const scale = Math.min(vw / 1180, vh / 664, 1.15);
+        stage.style.transform = "scale(" + Math.max(0.35, scale) + ")";
+      }
+
+      slides.forEach((_, idx) => {
+        const dot = document.createElement("button");
+        dot.type = "button";
+        dot.className = "dot" + (idx === 0 ? " active" : "");
+        dot.setAttribute("aria-label", "前往第 " + (idx + 1) + " 頁");
+        dot.addEventListener("click", () => goTo(idx));
+        dotsWrap.appendChild(dot);
+      });
+
+      const dots = Array.from(dotsWrap.querySelectorAll(".dot"));
+
+      function updateDrawer(idx) {
+        const s = slides[idx];
+        const card = s.dataset.card || "";
+        const wiki = s.dataset.wiki || "";
+        const raw = s.dataset.raw || "";
+        drawerInfo.innerHTML =
+          "<div><strong>目前頁碼：</strong>第 " + (idx + 1) + " / " + slides.length + " 頁</div>" +
+          "<div><strong>指派證據卡：</strong><code>" + card + "</code></div>" +
+          "<div><strong>對應 Wiki：</strong><code>" + wiki + "</code></div>" +
+          "<div><strong>Raw 素材：</strong><code>" + raw + "</code></div>" +
+          "<div><strong>Gate 狀態：</strong>Gate 3（字數／出處／因果）PASS ・ Gate 4（鎖定文案渲染）PASS</div>";
+      }
+
+      function goTo(idx) {
+        current = Math.max(0, Math.min(slides.length - 1, idx));
+        slides.forEach((s, i) => s.classList.toggle("active", i === current));
+        dots.forEach((d, i) => d.classList.toggle("active", i === current));
+        counter.textContent = String(current + 1).padStart(2, "0") + " / " + slides.length;
+        prevBtn.disabled = current === 0;
+        nextBtn.disabled = current === slides.length - 1;
+        updateDrawer(current);
+      }
+
+      prevBtn.addEventListener("click", () => goTo(current - 1));
+      nextBtn.addEventListener("click", () => goTo(current + 1));
+
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "ArrowRight" || e.key === " ") {
+          e.preventDefault();
+          goTo(current + 1);
+        } else if (e.key === "ArrowLeft") {
+          e.preventDefault();
+          goTo(current - 1);
+        } else if (e.key === "Home") {
+          e.preventDefault();
+          goTo(0);
+        } else if (e.key === "End") {
+          e.preventDefault();
+          goTo(slides.length - 1);
+        }
+      });
+
+      toggleBtn.addEventListener("click", () => drawer.classList.toggle("open"));
+      closeBtn.addEventListener("click", () => drawer.classList.remove("open"));
+
+      window.addEventListener("resize", fitStage);
+      fitStage();
+      goTo(0);
+    })();
+  </script>
+</body>
+</html>

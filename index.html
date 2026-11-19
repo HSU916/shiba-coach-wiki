@@ -18,7 +18,8 @@
         <span>阿柴教練跑步知識庫</span>
       </a>
       <nav class="nav-links" aria-label="主導覽">
-        <a href="./wiki/index.md">Wiki 索引</a>
+        <a href="./slides/first-5k-guide/index.html" style="background: var(--shiba-soft); color: var(--shiba-orange);">教學 HTML 簡報 (12頁)</a>
+        <a href="./wiki/index.md">Wiki 索引 (6篇)</a>
         <a href="./AGENTS.md">AGENTS.md 規則</a>
       </nav>
     </div>
@@ -46,8 +47,23 @@
         <p>由 AI 摘要整理成 Markdown 概念頁，並維護頁面之間的雙向連結。</p>
       </div>
       <div class="arch-box layer-pages">
-        <div class="layer-label">03. pages/ 互動網頁</div>
-        <p>依照 AGENTS.md 固定骨架生成靜態頁面，附帶原生 JS 試算工具。</p>
+        <div class="layer-label">03. pages/ &amp; slides/ 網頁輸出</div>
+        <p>依照 AGENTS.md 與 Graph 工作流生成 6 篇互動知識頁與 12 頁教學簡報。</p>
+      </div>
+    </section>
+
+    <section class="section-card" style="border: 2.5px solid var(--teal); background: linear-gradient(135deg, #FFFDF9 0%, #E0F1EF 100%); margin-bottom: 24px;" aria-label="第十週教學 HTML 簡報">
+      <div style="display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px;">
+        <div style="flex: 1 1 420px;">
+          <span class="pill" style="background: var(--teal); color: #FFFFFF; border-color: var(--teal); margin-bottom: 8px; display: inline-block;">HW10 新成果｜LLM Wiki → 教學 HTML 簡報</span>
+          <h2 style="border-bottom: none; padding-bottom: 0; margin: 4px 0 8px;">從零跑完第一個 5K：12 頁翻頁教學簡報</h2>
+          <p style="margin: 0; color: var(--muted); font-size: 0.95rem;">只使用本知識庫 6 篇 Wiki 內容，透過 6 節點 Graph ＋ 單頁 Loop 工作流與 Python 檢查腳本自動驗收生成，每頁底部皆附原文出處連結。</p>
+        </div>
+        <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+          <a class="btn" href="./slides/first-5k-guide/index.html" style="text-decoration: none;">開啟 12 頁教學簡報 →</a>
+          <a class="btn secondary" href="./workflows/topic-first-5k-guide/report.md" style="text-decoration: none;">檢視 Graph 執行報告</a>
+          <a class="btn secondary" href="./wiki/requirements-interview.md" style="text-decoration: none;">先討論需求摘要</a>
+        </div>
       </div>
     </section>
 
@@ -103,6 +119,26 @@
           <span class="card-go">檢視暖身檢核 →</span>
         </div>
       </a>
+
+      <a class="card" data-category="補給策略" href="./pages/cooldown-and-hydration/index.html">
+        <span class="card-cat cat-nutrition">補給策略</span>
+        <h2>跑後收操伸展與科學補水原則</h2>
+        <p>跑後先慢走 5–10 分鐘降回 120 bpm 以下，搭配 4 部位靜態伸展與跑前後體重差補水試算。</p>
+        <div class="card-meta">
+          <span>2026-11-19</span>
+          <span class="card-go">試算補水收操 →</span>
+        </div>
+      </a>
+
+      <a class="card" data-category="訓練法" href="./pages/first-5k-pacing/index.html">
+        <span class="card-cat">訓練法</span>
+        <h2>首場 5K 三段配速與跑前輕食指南</h2>
+        <p>前慢、中穩、後維持三段式 5K 配速試算（35 分均速 7:00/km 範例），搭配起跑前超商低負擔輕食建議。</p>
+        <div class="card-meta">
+          <span>2026-11-19</span>
+          <span class="card-go">試算三段配速 →</span>
+        </div>
+      </a>
       <!-- WIKI_CARDS_END -->
     </section>
 
@@ -112,8 +148,8 @@
   </main>
 
   <footer class="wrap">
-    <span>清大 115232501 許家豪｜生成式 AI 課程第九週作業</span>
-    <span>由 AGENTS.md 規範驅動之純靜態知識庫</span>
+    <span>清大 115232501 許家豪｜生成式 AI 課程 HW9–HW10 知識庫與教學簡報</span>
+    <span>由 AGENTS.md v3 與 Graph + Loop 工作流規範驅動</span>
   </footer>
 
   <script src="./assets/app.js"></script>
